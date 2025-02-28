@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Upload File</title>
+    <link rel="stylesheet" href="e-book.css">
+</head>
+<body>
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark px-4 px-lg-5 py-3 py-lg-0">
+        <div class="d-flex justify-content-between w-100">
+            <div>
+                <a href="" class="navbar-brand p-0">
+                    <h1 class="text-primary m-0"><i class="fa fa-book me-3"></i>LEREK'S BOOK</h1>
+                </a>
+                
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+
+                <div class="collapse navbar-collapse mt-3" id="navbarCollapse">
+                    <div class="navbar-nav">
+                        <a href="utama.html" class="nav-item nav-link active">Beranda</a>
+                        <a href="about.html" class="nav-item nav-link">Tentang</a>
+                        <a href="upload file.html" class="nav-item nav-link">Upload E-Book</a>
+                        <a href="download file.html" class="nav-item nav-link">Download File</a>
+                        <a href="search files.html" class="nav-item nav-link">Search Files</a>
+                    </div>
+                </div>
+            </div>
+            <div class="auth-buttons">
+                <a href="login.html" class="btn btn-primary">LOGIN</a>
+                <a href="sign up.html" class="btn btn-primary">SIGN UP</a>
+            </div>          
+        </div>
+    </nav>
+
+    <div class="container">
+        <div class="upload-section">
+            <h1>Upload E-Book</h1>
+            <form id="uploadForm" method="POST" action="/upload" enctype="multipart/form-data">
+                <input type="file" id="fileInput" name="ebook" class="file-input" accept=".pdf,.epub,.mobi" required>
+                <button type="button" class="upload-btn" onclick="document.getElementById('fileInput').click()">
+                    Pilih File E-Book
+                </button>
+                <button type="submit" class="save-btn" id="saveButton" style="display:none">
+                    Simpan E-Book
+                </button>
+            </form>
+            <div id="uploadStatus" class="upload-status"></div>
+            <div id="uploadProgress" class="progress" style="display:none">
+                <div class="progress-bar" role="progressbar" style="width: 0%"></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Tambahkan Bootstrap JS dan dependencies -->
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.min.js"></script>
+
+    <script>
+        document.getElementById('fileInput').addEventListener('change', function() {
+            const file = this.files[0];
+            if(file) {
+                // Validasi ukuran file (maksimal 10MB)
+                if(file.size > 10 * 1024 * 1024) {
+                    alert('Ukuran file terlalu besar. Maksimal 10MB');
+                    this.value = '';
+                    return;
+                }
+                
+                // Validasi tipe file
+                const allowedTypes = ['.pdf', '.epub', '.mobi'];
+                const fileExtension = '.' + file.name.split('.').pop().toLowerCase();
+                if(!allowedTypes.includes(fileExtension)) {
+                    alert('Tipe file tidak didukung. Gunakan format PDF, EPUB, atau MOBI');
+                    this.value = '';
+                    return;
+                }
+
+                document.getElementById('saveButton').style.display = 'block';
+            }
+        });
+
+        document.getElementById('uploadForm').addEventListener('submit', async function(e) {
+            e.preventDefault();
+            
+            const formData = new FormData(this);
+            const uploadStatus = document.getElementById('uploadStatus');
+            const uploadProgress = document.getElementById('uploadProgress');
+            const progressBar = uploadProgress.querySelector('.progress-bar');
+            
+            uploadStatus.innerHTML = 'Sedang mengupload...';
+            uploadStatus.style.color = 'blue';
+            uploadProgress.style.display = 'block';
+            
+            try {
+                const response = await fetch('/upload', {
+                    method: 'POST',
+                    body: formData
+                });
+                
+                if(response.ok) {
+                    const result = await response.json();
+                    uploadStatus.innerHTML = 'File berhasil disimpan!';
+                    uploadStatus.style.color = 'green';
+                    
+                    // Reset form setelah berhasil
+                    this.reset();
+                    document.getElementById('saveButton').style.display = 'none';
+                    uploadProgress.style.display = 'none';
+                } else {
+                    const errorData = await response.json();
+                    throw new Error(errorData.message || 'Upload gagal');
+                }
+            } catch(error) {
+                uploadStatus.innerHTML = 'Gagal menyimpan file: ' + error.message;
+                uploadStatus.style.color = 'red';
+                uploadProgress.style.display = 'none';
+            }
+        });
+    </script>
+    <script src="e-book.js"></script>
+</body>
+</html>

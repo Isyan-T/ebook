@@ -1,0 +1,267 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Website E-Book</title>
+    <style>
+        :root {
+            --primary-color: #2c3e50;
+            --secondary-color: #ecf0f1;
+            --hover-color: #34495e;
+            --text-color: #2c3e50;
+            --border-color: #bdc3c7;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            background-color: var(--secondary-color);
+            color: var(--text-color);
+        }
+
+        /* Tambahan style untuk top panel */
+        .top-panel {
+            background: var(--primary-color);
+            padding: 15px 30px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            color: white;
+        }
+
+        .auth-buttons {
+            display: flex;
+            gap: 15px;
+        }
+
+        .auth-btn {
+            padding: 8px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-weight: bold;
+            transition: all 0.3s ease;
+        }
+
+        .login-btn {
+            background: transparent;
+            border: 2px solid white;
+            color: white;
+        }
+
+        .login-btn:hover {
+            background: rgba(255,255,255,0.1);
+        }
+
+        .signin-btn {
+            background: white;
+            color: var(--primary-color);
+        }
+
+        .signin-btn:hover {
+            background: var(--secondary-color);
+        }
+
+        .brand-name {
+            font-size: 24px;
+            font-weight: bold;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .layout-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+        }
+
+        .layout-section {
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+
+        .upload-section {
+            text-align: center;
+        }
+
+        .file-input {
+            display: none;
+        }
+
+        .upload-btn, .download-btn, .view-btn {
+            background: var(--primary-color);
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            margin: 10px 5px;
+            transition: background 0.3s ease;
+        }
+
+        .upload-btn:hover, .download-btn:hover, .view-btn:hover {
+            background: var(--hover-color);
+        }
+
+        .file-list {
+            margin-top: 20px;
+        }
+
+        .file-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 10px;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .file-actions {
+            display: flex;
+            gap: 10px;
+        }
+
+        .download-btn {
+            background: #27ae60;
+        }
+
+        .view-btn {
+            background: #2980b9;
+        }
+
+        .ebook-viewer {
+            width: 100%;
+            height: 500px;
+            border: none;
+        }
+
+        .file-name {
+            flex: 1;
+            margin-right: 10px;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+        }
+
+        /* Tambahan style untuk status upload */
+        .upload-status {
+            margin-top: 10px;
+            padding: 10px;
+            border-radius: 5px;
+        }
+
+        .upload-status.success {
+            background-color: #d4edda;
+            color: #155724;
+            border: 1px solid #c3e6cb;
+        }
+
+        .upload-status.error {
+            background-color: #f8d7da;
+            color: #721c24;
+            border: 1px solid #f5c6cb;
+        }
+    </style>
+</head>
+<body>
+    <div class="top-panel">
+        <div class="logo">
+            <h2>LEREK'S BOOK</h2>
+        </div>
+        <div class="auth-buttons">
+            <button class="auth-btn login-btn">LOGIN</button>
+            <button class="auth-btn">SIGN UP</button>
+        </div>
+        
+    </div>
+
+    <div class="container">
+        <header class="header">
+            <h1>Perpustakaan Digital</h1>
+        </header>
+
+        <div class="layout-container">
+            <section class="layout-section upload-section">
+                <h2>Upload File</h2>
+                <input type="file" id="fileInput" class="file-input" accept=".pdf,.epub,.mobi">
+                <button class="upload-btn" onclick="document.getElementById('fileInput').click()">
+                    Pilih File
+                </button>
+                <div id="uploadStatus"></div>
+            </section>
+
+            <section class="layout-section">
+                <h2>Daftar E-Book</h2>
+                <div id="fileList" class="file-list">
+                    <!-- File list will be populated here -->
+                </div>
+            </section>
+
+           
+        </div>
+    </div>
+
+    <script>
+        // Handle file upload
+        document.getElementById('fileInput').addEventListener('change', function(e) {
+            const file = e.target.files[0];
+            const uploadStatus = document.getElementById('uploadStatus');
+            
+            if (file) {
+                uploadStatus.textContent = `File ${file.name} berhasil diunggah`;
+                addFileToList(file);
+            }
+        });
+
+        // Add file to list
+        function addFileToList(file) {
+            const fileList = document.getElementById('fileList');
+            const fileItem = document.createElement('div');
+            fileItem.className = 'file-item';
+            
+            fileItem.innerHTML = `
+                <span>${file.name}</span>
+                <button class="download-btn" onclick="downloadFile('${file.name}')">Download</button>
+            `;
+            
+            fileList.appendChild(fileItem);
+        }
+
+        // Download file function
+        function downloadFile(fileName) {
+            // Implement actual download logic here
+            alert(`Mengunduh file: ${fileName}`);
+        }
+
+        // Sample data for demonstration
+        const sampleBooks = [
+            'Buku 1.pdf',
+            'Buku 2.epub',
+            'Buku 3.pdf'
+        ];
+
+        // Populate sample books
+        window.onload = function() {
+            sampleBooks.forEach(book => {
+                addFileToList({name: book});
+            });
+        }
+    </script>
+</body>
+</html>

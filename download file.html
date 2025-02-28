@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Website E-Book</title>
+    <link rel="stylesheet" href="e-book.css">
+</head>
+    
+</head>
+<body>
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark px-4 px-lg-5 py-3 py-lg-0">
+        <div class="d-flex justify-content-between w-100">
+            <div>
+                <a href="" class="navbar-brand p-0">
+                    <h1 class="text-primary m-0"><i class="fa fa-book me-3"></i>LEREK'S BOOK</h1>
+                </a>
+                
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+
+                <div class="collapse navbar-collapse mt-3" id="navbarCollapse">
+                    <div class="navbar-nav">
+                        <a href="utama.html" class="nav-item nav-link active">Beranda</a>
+                        <a href="about.html" class="nav-item nav-link">Tentang</a>
+                        <a href="upload file.html" class="nav-item nav-link">Upload E-Book</a>
+                        <a href="download file.html" class="nav-item nav-link">Download File</a>
+                        <a href="search files.html" class="nav-item nav-link">Search Files</a>
+                    </div>
+                </div>
+            </div>
+            <div class="auth-buttons">
+                <a href="login.html" class="btn btn-primary">LOGIN</a>
+                <a href="sign up.html" class="btn btn-primary">SIGN UP</a>
+            </div>         
+        </div>
+    </nav>
+
+    <div class="container">
+        <header class="header">
+            <h1>Perpustakaan Digital</h1>
+        </header>
+
+        <div class="layout-container">
+            <section class="layout-section">
+                <h2>Daftar E-Book</h2>
+                <div id="fileList" class="file-list">
+                    <!-- File list akan ditampilkan di sini -->
+                </div>
+            </section>
+        </div>
+    </div>
+
+    <!-- Tambahkan Bootstrap JS dan dependencies -->
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.min.js"></script>
+    <script src="https://kit.fontawesome.com/your-kit-code.js"></script>
+
+    <script>
+        // Fungsi untuk mengambil data file yang diupload
+        function getUploadedFiles() {
+            try {
+                // Mengambil data dari localStorage yang disimpan saat upload
+                const uploadedFiles = JSON.parse(localStorage.getItem('uploadedFiles')) || [];
+                const fileList = document.getElementById('fileList');
+                
+                if (!fileList) {
+                    throw new Error('Element fileList tidak ditemukan');
+                }
+                
+                // Membersihkan daftar file yang ada
+                fileList.innerHTML = '';
+                
+                // Menampilkan setiap file yang diupload
+                uploadedFiles.forEach(file => {
+                    const fileItem = document.createElement('div');
+                    fileItem.className = 'file-item';
+                    fileItem.innerHTML = `
+                        <h3>${file.name}</h3>
+                        <p>Ukuran: ${file.size} bytes</p>
+                        <p>Tipe: ${file.type}</p>
+                        <p>Tanggal Upload: ${new Date(file.uploadDate).toLocaleDateString()}</p>
+                        <button onclick="downloadFile('${file.name}')" class="download-btn">Download</button>
+                    `;
+                    fileList.appendChild(fileItem);
+                });
+            } catch (error) {
+                console.error('Error saat memuat daftar file:', error);
+            }
+        }
+
+        // Memanggil fungsi saat halaman dimuat
+        document.addEventListener('DOMContentLoaded', getUploadedFiles);
+
+        // Menambahkan event listener untuk memperbarui daftar file secara real-time
+        window.addEventListener('storage', function(e) {
+            if (e.key === 'uploadedFiles') {
+                getUploadedFiles();
+            }
+        });
+    </script>
+    
+    <script src="e-book.js"></script>
+</body>
+</html>

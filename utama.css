@@ -1,0 +1,421 @@
+/********** Template CSS **********/
+:root {
+    --primary: #88b11a;
+    --primary-color: #45502c;
+    --light: #F1F8FF;
+    --dark: #0F172B;
+    --header-height: 100px;
+    --header-padding: 20px;
+    --secondary-color: #ecf0f1;
+    --hover-color: #34495e;
+    --text-color: #2c3e50;
+    --border-color: #bdc3c7;
+}
+
+.ff-secondary {
+    font-family: 'Nunito', sans-serif;
+    font-weight: 400;
+    font-style: normal;
+    font-display: swap;
+    color: var(--text-color);
+    line-height: 1.5;
+    text-transform: none;
+    letter-spacing: normal;
+    margin: 0;
+    padding: 0;
+}
+
+.fw-medium {
+    font-weight: 600 !important;
+    font-family: 'Nunito', sans-serif;
+    color: var(--text-color);
+    line-height: 1.5;
+    text-transform: none;
+    letter-spacing: normal;
+    margin: 0;
+    padding: 0;
+}
+
+.fw-semi-bold {
+    font-weight: 700 !important;
+    font-family: 'Nunito', sans-serif;
+    color: var(--text-color);
+    line-height: 1.5;
+    text-transform: none;
+    letter-spacing: normal;
+    margin: 0;
+    padding: 0;
+}
+
+.back-to-top {
+    position: fixed;
+    display: none;
+    right: 45px;
+    bottom: 45px;
+    z-index: 99;
+    background-color: var(--primary);
+    color: #fff;
+    width: 45px;
+    height: 45px;
+    border-radius: 50%;
+    text-align: center;
+    line-height: 45px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.back-to-top:hover {
+    background-color: var(--primary-color);
+}
+
+.back-to-top.show {
+    display: block;
+}
+
+/*** Spinner ***/
+#spinner {
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity .5s ease-out, visibility 0s linear .5s;
+    z-index: 99999;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(255, 255, 255, 0.9);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.spinner {
+    animation: spin 2s linear infinite;
+    width: 50px;
+    height: 50px;
+    border: 5px solid #f3f3f3;
+    border-top: 5px solid var(--primary-color);
+    border-radius: 50%;
+    margin: 0 auto;
+}
+
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+
+#spinner.show {
+    transition: opacity .5s ease-out, visibility 0s;
+    visibility: visible;
+    opacity: 1;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+/*** Button ***/
+/* Mengubah posisi tombol auth ke pojok kanan atas */
+.auth-buttons {
+    position: relative;
+    display: flex;
+    gap: 15px;
+    margin-left: auto;
+    padding: 1rem;
+    z-index: 1001;
+}
+
+.btn {
+    font-family: 'Nunito', sans-serif;
+    font-weight: 500;
+    text-transform: uppercase;
+    transition: all 0.5s ease;
+    padding: 10px 20px;
+    border-radius: 5px;
+    border: none;
+    cursor: pointer;
+    outline: none;
+    display: inline-block;
+    text-align: center;
+    text-decoration: none;
+    background-color: transparent;
+    color: inherit;
+}
+
+.btn.btn-primary {
+    background-color: var(--primary-color);
+    color: #FFFFFF;
+}
+.btn.btn-secondary {
+    background-color: #6c757d;
+    color: #FFFFFF;
+    border: 1px solid #6c757d;
+}
+
+.btn-square {
+    width: 38px;
+    height: 38px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0;
+    border-radius: 4px;
+}
+
+.btn-sm-square {
+    width: 32px;
+    height: 32px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0;
+    border-radius: 2px;
+}
+
+.btn-lg-square {
+    width: 48px;
+    height: 48px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0;
+    border-radius: 2px;
+}
+
+.btn-square {
+    width: 38px;
+    height: 38px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0;
+    border-radius: 2px;
+}
+.btn-sm-square {
+    width: 32px;
+    height: 32px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0;
+    border-radius: 2px;
+}
+.btn-lg-square {
+    width: 48px;
+    height: 48px;
+    padding: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: normal;
+    border-radius: 2px;
+}
+
+/*** Navbar ***/
+.navbar-dark .navbar-nav .nav-link {
+    position: relative;
+    margin-left: 25px;
+    padding: 15px 0;
+    font-size: 15px;
+    color: #ffffff !important;
+    text-transform: uppercase;
+    font-weight: 500;
+    outline: none;
+    transition: all 0.3s ease;
+}
+
+.sticky-top.navbar-dark .navbar-nav .nav-link {
+    padding: 20px 0;
+}
+
+.navbar-dark .navbar-nav .nav-link:hover {
+    color: var(--primary) !important;
+    background-color: rgba(255, 255, 255, 0.1);
+    border-radius: 4px;
+}
+.navbar-dark .navbar-nav .nav-link.active {
+    color: var(--primary) !important;
+    background-color: rgba(255, 255, 255, 0.1);
+    border-radius: 4px;
+    font-weight: 600;
+}
+
+.navbar-dark .navbar-brand h1 {
+    transition: all 0.5s ease;
+    color: #ffffff !important;
+    margin: 0;
+    font-size: 1.5rem;
+    font-weight: bold;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+@media (max-width: 991.98px) {
+    .sticky-top.navbar-dark {
+        position: relative;
+    }
+
+    .navbar-dark .navbar-collapse {
+        margin-top: 15px;
+        border-top: 1px solid rgba(255, 255, 255, .1);
+    }
+
+    .navbar-dark .navbar-nav .nav-link,
+    .sticky-top.navbar-dark .navbar-nav .nav-link {
+        padding: 10px 0;
+        margin-left: 0;
+        color: #ffffff !important;
+    }
+
+    .navbar-dark .navbar-nav {
+        padding: 15px;
+    }
+}
+
+@media (min-width: 992px) {
+    .navbar-dark {
+        position: absolute;
+        width: 100%;
+        top: 0;
+        left: 0;
+        z-index: 999;
+        background-color: transparent !important;
+        transition: background-color 0.3s ease;
+    }
+    
+    .sticky-top.navbar-dark {
+        position: fixed;
+        background-color: #0F172B !important;
+        box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    }
+}
+
+/*** Hero Header ***/
+.hero-header {
+    background: linear-gradient(rgba(15, 23, 43, .9), rgba(15, 23, 43, .9)), url(img/book-hero.png);
+    background-position: center center;
+    background-repeat: no-repeat;
+    background-size: cover;
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+}
+
+/*** Section Title ***/
+.section-title {
+    position: relative;
+    display: inline-block;
+    padding: 0 15px;
+    margin-bottom: 30px;
+    text-align: center;
+}
+
+.section-title::before {
+    position: absolute;
+    content: "";
+    width: 45px;
+    height: 2px;
+    top: 50%;
+    left: -55px;
+    margin-top: -1px;
+    background: #FEA116;
+}
+
+.section-title::after {
+    position: absolute;
+    content: "";
+    width: 45px;
+    height: 2px;
+    top: 50%;
+    right: -55px;
+    margin-top: -1px;
+    background: #FEA116;
+}
+
+.section-title.text-start::before {
+    display: none;
+}
+.section-title.text-end::after {
+    display: none;
+    content: "";
+    width: 45px;
+    height: 2px;
+    top: 50%;
+    right: -55px;
+    margin-top: -1px;
+    background: #FEA116;
+}
+
+/*** Footer ***/
+.footer {
+    background-color: #0F172B;
+    color: #FFFFFF;
+    padding: 40px 0;
+}
+
+.footer .btn.btn-social {
+    margin-right: 5px;
+    width: 35px;
+    height: 35px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #FFFFFF;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    border-radius: 35px;
+    transition: .3s;
+}
+
+.footer .btn.btn-social:hover {
+    color: #FEA116;
+}
+
+.footer .btn.btn-link {
+    display: block;
+    margin-bottom: 5px;
+    padding: 0;
+    text-align: left;
+    color: #FFFFFF;
+    font-size: 15px;
+    font-weight: normal;
+    text-transform: capitalize;
+    transition: .3s;
+}
+
+.footer .btn.btn-link::before {
+    position: relative;
+    content: "\f105";
+    font-family: "Font Awesome 5 Free";
+    font-weight: 900;
+    margin-right: 10px;
+    display: inline-block;
+}
+
+.footer .btn.btn-link:hover {
+    letter-spacing: 1px;
+    color: #FEA116;
+}
+
+.footer .copyright {
+    padding: 25px 0;
+    font-size: 15px;
+    border-top: 1px solid rgba(255, 255, 255, .1);
+}
+
+.footer .copyright a {
+    color: #FFFFFF;
+}
+
+.footer .footer-menu a {
+    margin-right: 15px;
+    padding-right: 15px;
+    border-right: 1px solid rgba(255, 255, 255, .1);
+    color: #FFFFFF;
+    text-decoration: none;
+    transition: .3s;
+}
+
+.footer .footer-menu a:last-child {
+    margin-right: 0;
+    padding-right: 0;
+    border-right: none;
+}
